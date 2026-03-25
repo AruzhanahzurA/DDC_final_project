@@ -3,5 +3,6 @@ venv/
 __pycache__/
 *.pyc
 data/studentlife/
-.envdata/processed/
+.env
+data/processed/
 data.zip
