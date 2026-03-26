@@ -8,3 +8,4 @@ notebook
 matplotlib
 seaborn
 statsmodels
+pytrends
