@@ -63,12 +63,11 @@ jupyter notebook code/Final_project.ipynb
 
 Repository Structure (expanded)
 
-- `data/sensing/activity/` and `data/sensing/conversation/` — per-user raw
-   CSVs. Filenames use the `*_uNN.csv` convention where `NN` is the participant id.
-- `data/processed/` — files produced by the notebook: `pam.csv`,
-   `activity.csv`, `dark.csv`, `conversation.csv`, `gps.csv`, `deadlines.csv`,
-   and `weather.csv` (weather fetching is optional and may be pre-saved).
-- `code/Final_project.ipynb` — end-to-end analysis notebook (preprocessing,
+- `data/studentlife/` — original StudentLife raw files, including `EMA/`,
+   `education/`, and `sensing/`.
+- `data/processed/` — cleaned, per-participant/day aggregated CSVs produced
+   by the notebook.
+- `code/Final_project.ipynb` — main analysis notebook (preprocessing,
    feature engineering, modeling, plotting).
 - `output/` — figures and tables produced by the notebook; check it after
    running the analysis.
@@ -81,6 +80,7 @@ Repository Structure (expanded)
 ├─ requirements.txt
 ├─ LICENSE
 ├─ .gitignore
+├─ mood_daily1.csv
 ├─ data/
 │  ├─ processed/
 │  │  ├─ activity.csv
@@ -90,19 +90,22 @@ Repository Structure (expanded)
 │  │  ├─ gps.csv
 │  │  ├─ pam.csv
 │  │  └─ weather.csv
-│  └─ sensing/
-│     ├─ activity/
-│     │  ├─ activity_u00.csv
-│     │  ├─ activity_u01.csv
-│     │  └─ ...
-│     ├─ conversation/
-│     │  ├─ conversation_u00.csv
-│     │  └─ ...
-│     └─ education/
-│        └─ deadlines.csv
+│  └─ studentlife/
+│     ├─ EMA/
+│     ├─ education/
+│     │  └─ deadlines.csv
+│     └─ sensing/
+│        ├─ activity/
+│        │  ├─ activity_u00.csv
+│        │  ├─ activity_u01.csv
+│        │  └─ ...
+│        ├─ conversation/
+│        │  ├─ conversation_u00.csv
+│        │  └─ ...
+│        └─ gps/
+│           └─ ...
 ├─ code/
 │  └─ Final_project.ipynb
-├─ docs/
 └─ output/
 ```
 
@@ -113,11 +116,11 @@ The analysis follows a staged architecture:
 - Ingestion: raw sensor CSVs and EMA JSON files are read from `data/sensing/`
    and `data/EMA/` respectively. External sources are fetched optionally via
    HTTP APIs and can be cached locally:
-   - Open-Meteo provides historical weather variables used to derive daily
+   - **Open-Meteo** provides historical weather variables used to derive daily
      weather categories.
-   - GDELT supplies news-event sentiment and volume signals as a societal
+   - **GDELT** supplies news-event sentiment and volume signals as a societal
      mood proxy.
-   - Google Trends supplies search interest signals for anxiety-related terms.
+   - **Google Trends** supplies search interest signals for anxiety-related terms.
    These extra-context signals are used to build a richer confound-aware model.
 - Privacy-preserving mapping: raw participant UIDs are irreversibly hashed
    (SHA-256 with a salt) immediately upon ingestion; raw UIDs and raw GPS
@@ -139,8 +142,7 @@ The analysis follows a staged architecture:
 - Merge: outer-merge all per-sensor daily tables on `hashed_uid` + `date`,
    then drop rows missing the primary outcome (daily mean PAM score).
 - Feature engineering: add weekday/weekend and holiday flags, derive
-   `weather_category` from weather codes, and construct composite societal
-   mood signals from GDELT + Google Trends.
+   `weather_category` from weather codes, and **construct composite societal mood signals** from GDELT + Google Trends.
 - Save: processed CSVs are written to `data/processed/` for reproducibility.
 
 ## Limitations & Future Work
