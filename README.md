@@ -20,11 +20,13 @@ relationship between phone signals and self-reported mood change?
 
 ## Dataset
 
-StudentLife (Dartmouth, 2013)
-Download: https://studentlife.cs.dartmouth.edu/dataset.html
+This project uses the StudentLife dataset (Dartmouth, 2013). Because datasets are gitignored to keep the repository lightweight, you must download the project files separately.
 
-Place the downloaded dataset in the `data/studentlife/` folder before running
-any notebooks. This folder is gitignored and will not be pushed to GitHub.
+* **Raw & Processed Data Link:** [👉 Click here to download our data folder from Google Drive / Cloud Storage 👈](PASTE_YOUR_SHARED_CLOUD_LINK_HERE)
+
+**Instructions:**
+1. Download and unzip the `data` folder from the link above.
+2. Move the extracted `processed/` and `studentlife/` folders directly into the `data/` directory of your cloned local repository.
 
 ## Setup Instructions
 
